@@ -88,14 +88,14 @@ async function createClient(event) {
     body: JSON.stringify(body)
   });
 
-  let payload = {};
+  let responsePayload = {};
   try {
-    payload = await response.json();
+    responsePayload = await response.json();
   } catch (error) {
     console.error("Réponse JSON invalide lors de la création client", error);
   }
   if (!response.ok) {
-    setAuthStatus(`Erreur création client: ${payload.error ?? "inconnue"}`);
+    setAuthStatus(`Erreur création client: ${responsePayload.error ?? "inconnue"}`);
     return;
   }
 

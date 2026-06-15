@@ -4,8 +4,7 @@ import { config } from "./config.js";
 const TOKEN_VERSION = "v1";
 
 function derivePasswordHash(password, salt) {
-  const hash = crypto.scryptSync(password, salt, 64).toString("hex");
-  return hash;
+  return crypto.scryptSync(password, salt, 64).toString("hex");
 }
 
 export function hashPassword(password) {

@@ -16,10 +16,9 @@ const server = http.createServer(async (req, res) => {
   try {
     const url = new URL(req.url, "http://localhost");
     const pathname = url.pathname === "/" ? "/index.html" : url.pathname;
-    const filePath = path.join(rootDir, pathname);
-    const normalized = path.normalize(filePath);
+    const normalized = path.resolve(rootDir, `.${pathname}`);
 
-    if (!normalized.startsWith(rootDir)) {
+    if (normalized !== rootDir && !normalized.startsWith(`${rootDir}${path.sep}`)) {
       res.writeHead(403);
       res.end("Forbidden");
       return;

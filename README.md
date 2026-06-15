@@ -1,6 +1,6 @@
 # Plateforme de Gestion d'Assurance Automobile - PFE
 
-Plateforme digitale intégrée pour AtlantaSanad Assurance couvrant le cycle complet de l'assurance automobile avec un module de détection de fraude basé sur l'IA.
+Plateforme digitale intégrée pour AtlantaSanad Assurance couvrant le cycle complet de l'assurance automobile avec un module de détection de fraude basé sur le ML.
 
 ## Périmètre MVP v1 (implémenté)
 

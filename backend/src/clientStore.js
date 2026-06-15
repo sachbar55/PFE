@@ -49,7 +49,7 @@ export function updateClient(id, input) {
     email: input.email ? input.email.trim().toLowerCase() : existing.email,
     phone: input.phone ? input.phone.trim() : existing.phone,
     policyNumber: input.policyNumber ? input.policyNumber.trim() : existing.policyNumber,
-    ownerUserId: Object.prototype.hasOwnProperty.call(input, "ownerUserId") ? input.ownerUserId : existing.ownerUserId,
+    ownerUserId: Object.hasOwn(input, "ownerUserId") ? input.ownerUserId : existing.ownerUserId,
     updatedAt: nowIso()
   };
 

@@ -3,14 +3,20 @@ import { config } from "./config.js";
 
 const TOKEN_VERSION = "v1";
 
-export function hashPassword(password, salt = crypto.randomBytes(16).toString("hex")) {
+function derivePasswordHash(password, salt) {
   const hash = crypto.scryptSync(password, salt, 64).toString("hex");
+  return hash;
+}
+
+export function hashPassword(password) {
+  const salt = crypto.randomBytes(16).toString("hex");
+  const hash = derivePasswordHash(password, salt);
   return `${salt}:${hash}`;
 }
 
 export function verifyPassword(password, storedHash) {
   const [salt, hash] = storedHash.split(":");
-  const candidate = crypto.scryptSync(password, salt, 64).toString("hex");
+  const candidate = derivePasswordHash(password, salt);
   return crypto.timingSafeEqual(Buffer.from(candidate), Buffer.from(hash));
 }
 

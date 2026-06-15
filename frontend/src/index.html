@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portail Assurance Auto - MVP</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Portail Assurance Auto (MVP)</h1>
+
+      <section>
+        <h2>Connexion</h2>
+        <form id="login-form">
+          <input id="email" type="email" placeholder="Email" required />
+          <input id="password" type="password" placeholder="Mot de passe" required />
+          <button type="submit">Se connecter</button>
+        </form>
+        <p id="auth-status">Non connecté</p>
+      </section>
+
+      <section>
+        <h2>Clients</h2>
+        <form id="client-form">
+          <input id="firstName" placeholder="Prénom" required />
+          <input id="lastName" placeholder="Nom" required />
+          <input id="clientEmail" type="email" placeholder="Email client" required />
+          <input id="phone" placeholder="Téléphone" required />
+          <input id="policyNumber" placeholder="N° contrat" required />
+          <button type="submit">Ajouter client</button>
+        </form>
+        <button id="refresh-clients">Rafraîchir la liste</button>
+        <ul id="clients-list"></ul>
+      </section>
+
+      <section>
+        <h2>Comptes de test</h2>
+        <ul>
+          <li>admin@atlanta.local / Admin123!</li>
+          <li>agent@atlanta.local / Agent123!</li>
+          <li>client@atlanta.local / Client123!</li>
+        </ul>
+      </section>
+    </main>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

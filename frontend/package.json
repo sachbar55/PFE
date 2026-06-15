@@ -1,0 +1,11 @@
+{
+  "name": "@pfe/frontend",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "lint": "node --check server.js && node --check src/app.js",
+    "test": "node --test",
+    "build": "node build.mjs"
+  }
+}

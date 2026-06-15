@@ -1,0 +1,72 @@
+{
+  "fallbackValue": 0,
+  "featureOrder": [
+    "marque",
+    "marque2",
+    "ville",
+    "compagnie",
+    "garantie",
+    "responsabilite",
+    "type_ville",
+    "type_montant",
+    "type_marque",
+    "type_marque2",
+    "montant_dommage",
+    "periode",
+    "timestamp"
+  ],
+  "encoders": {
+    "marque": {
+      "AUTRE": 0,
+      "BMW": 1,
+      "DACIA": 2
+    },
+    "marque2": {
+      "AUTRE": 0,
+      "BMW": 1,
+      "DACIA": 2
+    },
+    "ville": {
+      "AUTRE": 0,
+      "AGADIR": 1,
+      "AHFIR": 2,
+      "CASABLANCA": 3
+    },
+    "compagnie": {
+      "AUTRE": 0,
+      "AXA MAROC": 1,
+      "WAFA ASSURANCE": 2
+    },
+    "garantie": {
+      "AUTRE": 0,
+      "RC": 1,
+      "TOUS RISQUES": 2
+    },
+    "responsabilite": {
+      "AUTRE": 0,
+      "0%": 1,
+      "50%": 2,
+      "100%": 3
+    },
+    "type_ville": {
+      "AUTRE": 0,
+      "URBAINE": 1
+    },
+    "type_montant": {
+      "FAIBLE": 0,
+      "MOYEN": 1,
+      "ELEVE": 2,
+      "TRES_ELEVE": 3
+    },
+    "type_marque": {
+      "STANDARD": 0,
+      "ECONOMIQUE": 1,
+      "PREMIUM": 2
+    },
+    "type_marque2": {
+      "STANDARD": 0,
+      "ECONOMIQUE": 1,
+      "PREMIUM": 2
+    }
+  }
+}

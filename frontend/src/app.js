@@ -10,6 +10,8 @@ const clientForm = document.querySelector("#client-form");
 const clientsList = document.querySelector("#clients-list");
 const authStatus = document.querySelector("#auth-status");
 const refreshButton = document.querySelector("#refresh-clients");
+const fraudForm = document.querySelector("#fraud-form");
+const fraudResult = document.querySelector("#fraud-result");
 
 function setAuthStatus(text) {
   authStatus.textContent = text;
@@ -103,6 +105,37 @@ async function createClient(event) {
   await loadClients();
 }
 
+async function scoreFraud(event) {
+  event.preventDefault();
+
+  const body = {
+    marque: document.querySelector("#fraud-marque").value,
+    marque2: document.querySelector("#fraud-marque2").value,
+    ville: document.querySelector("#fraud-ville").value,
+    compagnie: document.querySelector("#fraud-compagnie").value,
+    garantie: document.querySelector("#fraud-garantie").value,
+    responsabilite: document.querySelector("#fraud-responsabilite").value,
+    montant_dommage: Number(document.querySelector("#fraud-montant").value),
+    periode: Number(document.querySelector("#fraud-periode").value),
+    date_sinistre: document.querySelector("#fraud-date").value
+  };
+
+  const response = await fetch(`${apiBaseUrl}/api/fraude/score`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+  });
+  const payload = await response.json();
+
+  if (!response.ok) {
+    fraudResult.textContent = `Erreur scoring: ${payload.error ?? "inconnue"}`;
+    return;
+  }
+
+  fraudResult.textContent = `Score: ${payload.score_fraude} | Risque: ${payload.niveau_risque} | Seuil: ${payload.seuil}`;
+}
+
 loginForm.addEventListener("submit", login);
 clientForm.addEventListener("submit", createClient);
 refreshButton.addEventListener("click", loadClients);
+fraudForm.addEventListener("submit", scoreFraud);

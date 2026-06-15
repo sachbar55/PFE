@@ -35,6 +35,47 @@
       </section>
 
       <section>
+        <h2>Scoring fraude IA</h2>
+        <form id="fraud-form">
+          <select id="fraud-marque" required>
+            <option value="BMW">BMW</option>
+            <option value="DACIA">DACIA</option>
+          </select>
+          <select id="fraud-marque2" required>
+            <option value="DACIA">DACIA</option>
+            <option value="BMW">BMW</option>
+          </select>
+          <select id="fraud-ville" required>
+            <option value="CASABLANCA">CASABLANCA</option>
+            <option value="AGADIR">AGADIR</option>
+            <option value="AHFIR">AHFIR</option>
+            <option value="AUTRE">AUTRE</option>
+          </select>
+          <select id="fraud-compagnie" required>
+            <option value="AXA MAROC">AXA MAROC</option>
+            <option value="WAFA ASSURANCE">WAFA ASSURANCE</option>
+            <option value="AUTRE">AUTRE</option>
+          </select>
+          <select id="fraud-garantie" required>
+            <option value="RC">RC</option>
+            <option value="TOUS RISQUES">TOUS RISQUES</option>
+            <option value="AUTRE">AUTRE</option>
+          </select>
+          <select id="fraud-responsabilite" required>
+            <option value="0%">0%</option>
+            <option value="50%">50%</option>
+            <option value="100%">100%</option>
+            <option value="AUTRE">AUTRE</option>
+          </select>
+          <input id="fraud-montant" type="number" min="0" step="0.01" placeholder="Montant dommage" required />
+          <input id="fraud-periode" type="number" min="0" step="1" placeholder="Période (mois)" required />
+          <input id="fraud-date" type="date" required />
+          <button type="submit">Calculer score fraude</button>
+        </form>
+        <p id="fraud-result">Aucun score calculé</p>
+      </section>
+
+      <section>
         <h2>Comptes de test</h2>
         <ul>
           <li>admin@atlanta.local / Admin123!</li>

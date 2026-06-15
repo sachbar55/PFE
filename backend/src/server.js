@@ -10,7 +10,8 @@ import {
   updateClient,
   deleteClient
 } from "./clientStore.js";
-import { validateClientInput, validateLoginInput } from "./validation.js";
+import { validateClientInput, validateFraudInput, validateLoginInput } from "./validation.js";
+import { createFraudScorer, FraudScoringError } from "./fraudScoring.js";
 
 function parseAuth(req) {
   const authHeader = req.headers.authorization;
@@ -34,7 +35,9 @@ function parseClientId(pathname) {
   return match ? match[1] : null;
 }
 
-export function createAppServer() {
+export function createAppServer(options = {}) {
+  const fraudScorer = options.fraudScorer ?? createFraudScorer();
+
   return http.createServer(async (req, res) => {
     try {
       if (req.method === "OPTIONS") {
@@ -62,6 +65,23 @@ export function createAppServer() {
           token,
           user: { id: user.id, email: user.email, role: user.role }
         });
+      }
+
+      if (req.method === "POST" && url.pathname === "/api/fraude/score") {
+        const body = await parseJsonBody(req);
+        const validationError = validateFraudInput(body);
+        if (validationError) return json(res, 400, { error: validationError });
+
+        try {
+          const scoring = await fraudScorer.score(body);
+          return json(res, 200, scoring);
+        } catch (error) {
+          if (error instanceof FraudScoringError) {
+            const statusCode = error.code === "MODEL_NOT_READY" || error.code === "ENCODER_NOT_READY" ? 503 : 400;
+            return json(res, statusCode, { error: error.message, code: error.code });
+          }
+          return json(res, 500, { error: "Erreur IA interne" });
+        }
       }
 
       if (url.pathname === "/api/clients/me" && req.method === "GET") {

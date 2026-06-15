@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import { createAppServer } from "../src/server.js";
 import { resetClientsForTest } from "../src/clientStore.js";
 
-async function startServer() {
-  const server = createAppServer();
+async function startServer(options = {}) {
+  const server = createAppServer(options);
   await new Promise((resolve) => server.listen(0, resolve));
   const address = server.address();
   return {
@@ -117,6 +117,61 @@ test("client role cannot create clients but can read own records", async () => {
 
   assert.equal(ownResponse.status, 200);
   assert.equal(ownData.data.length, 1);
+
+  await app.close();
+});
+
+test("fraud scoring endpoint returns score and risk", async () => {
+  resetClientsForTest();
+  const fraudScorer = {
+    async score() {
+      return {
+        score_fraude: 0.78,
+        niveau_risque: "élevé",
+        seuil: 0.5
+      };
+    }
+  };
+  const app = await startServer({ fraudScorer });
+
+  const response = await fetch(`${app.baseUrl}/api/fraude/score`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      marque: "BMW",
+      marque2: "DACIA",
+      ville: "CASABLANCA",
+      compagnie: "AXA MAROC",
+      garantie: "RC",
+      responsabilite: "100%",
+      montant_dommage: 45230.5,
+      periode: 6,
+      date_sinistre: "2026-06-10"
+    })
+  });
+
+  const data = await response.json();
+  assert.equal(response.status, 200);
+  assert.equal(data.score_fraude, 0.78);
+  assert.equal(data.niveau_risque, "élevé");
+
+  await app.close();
+});
+
+test("fraud scoring endpoint validates input payload", async () => {
+  resetClientsForTest();
+  const app = await startServer();
+
+  const response = await fetch(`${app.baseUrl}/api/fraude/score`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      marque: "BMW",
+      marque2: "DACIA"
+    })
+  });
+
+  assert.equal(response.status, 400);
 
   await app.close();
 });

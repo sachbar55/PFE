@@ -26,7 +26,7 @@ Plateforme digitale intégrée pour AtlantaSanad Assurance couvrant le cycle com
 ### Hors périmètre v1 (phase suivante)
 - Module Contrats complet
 - Module Sinistres complet
-- Détection de fraude IA intégrée
+- Détection de fraude IA avancée (pipeline MLOps complet)
 - Reporting avancé
 
 Ces modules sont planifiés pour les prochaines itérations avec intégration continue.
@@ -57,6 +57,9 @@ Variables principales:
 - `BACKEND_PORT` (défaut `3000`)
 - `FRONTEND_PORT` (défaut `5173`)
 - `AUTH_TOKEN_SECRET`
+- `FRAUD_MODEL_PATH` (défaut `backend/models/model_rf_fraud.pkl`)
+- `FRAUD_ENCODERS_PATH` (défaut `backend/models/encoders.json`)
+- `FRAUD_PYTHON_CMD` (défaut `python3`)
 - `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_PORT`
 - `REDIS_PORT`
 
@@ -94,9 +97,44 @@ npm run build
 
 - `POST /api/auth/login`
 - `GET /api/health`
+- `POST /api/fraude/score`
 - `GET /api/clients` (admin/agent)
 - `POST /api/clients` (admin/agent)
 - `GET /api/clients/:id` (admin/agent/owner)
 - `PUT /api/clients/:id` (admin/agent)
 - `DELETE /api/clients/:id` (admin/agent)
 - `GET /api/clients/me` (client)
+
+## Scoring fraude IA
+
+Endpoint:
+
+```json
+POST /api/fraude/score
+{
+  "marque": "BMW",
+  "marque2": "DACIA",
+  "ville": "CASABLANCA",
+  "compagnie": "AXA MAROC",
+  "garantie": "RC",
+  "responsabilite": "100%",
+  "montant_dommage": 45230.50,
+  "periode": 6,
+  "date_sinistre": "2026-06-10"
+}
+```
+
+Réponse:
+
+```json
+{
+  "score_fraude": 0.78,
+  "niveau_risque": "élevé",
+  "seuil": 0.5
+}
+```
+
+Notes d'implémentation:
+- Le backend applique des mappings catégoriels depuis `backend/models/encoders.json`.
+- Les valeurs inconnues basculent vers la catégorie fallback (`AUTRE`) quand elle existe.
+- Le modèle pickle est chargé via Python (`backend/src/fraudModelRunner.py`) pour appeler `predict_proba`.

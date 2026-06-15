@@ -3,7 +3,7 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export function validateLoginInput(body) {
   if (!body || typeof body !== "object") return "Body JSON invalide";
   if (!body.email || !emailRegex.test(String(body.email))) return "Email invalide";
-  if (!body.password || String(body.password).length < 8) return "Mot de passe invalide";
+  if (!body.password || String(body.password).length < 8) return "Le mot de passe doit contenir au moins 8 caractères";
   return null;
 }
 

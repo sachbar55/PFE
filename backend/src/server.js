@@ -135,7 +135,7 @@ export function createAppServer() {
       if (error instanceof SyntaxError) {
         return json(res, 400, { error: "JSON invalide" });
       }
-      return json(res, 500, { error: "Erreur interne", details: String(error?.message ?? error) });
+      return json(res, 500, { error: "Erreur interne" });
     }
   });
 }

@@ -44,12 +44,12 @@ export function updateClient(id, input) {
 
   const updated = {
     ...existing,
-    ...input,
-    email: input.email ? input.email.trim().toLowerCase() : existing.email,
     firstName: input.firstName ? input.firstName.trim() : existing.firstName,
     lastName: input.lastName ? input.lastName.trim() : existing.lastName,
+    email: input.email ? input.email.trim().toLowerCase() : existing.email,
     phone: input.phone ? input.phone.trim() : existing.phone,
     policyNumber: input.policyNumber ? input.policyNumber.trim() : existing.policyNumber,
+    ownerUserId: Object.prototype.hasOwnProperty.call(input, "ownerUserId") ? input.ownerUserId : existing.ownerUserId,
     updatedAt: nowIso()
   };
 
